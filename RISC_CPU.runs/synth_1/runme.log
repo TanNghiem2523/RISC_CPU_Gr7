@@ -1,0 +1,255 @@
+
+*** Running vivado
+    with args -log RISC_CPU.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source RISC_CPU.tcl
+
+
+
+****** Vivado v2025.2 (64-bit)
+  **** SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+  **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+  **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+  **** Start of session at: Thu May 14 22:06:31 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source RISC_CPU.tcl -notrace
+create_project: Time (s): cpu = 00:00:07 ; elapsed = 00:00:05 . Memory (MB): peak = 533.180 ; gain = 222.047
+Command: read_checkpoint -auto_incremental -incremental C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/utils_1/imports/synth_1/program_counter.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/utils_1/imports/synth_1/program_counter.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top RISC_CPU -part xc7z020clg400-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 26160
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1089.016 ; gain = 533.742
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'RISC_CPU' [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/RISC_CPU.v:37]
+INFO: [Synth 8-6157] synthesizing module 'program_counter' [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/program_counter.v:22]
+INFO: [Synth 8-6155] done synthesizing module 'program_counter' (0#1) [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/program_counter.v:22]
+INFO: [Synth 8-6157] synthesizing module 'address_mux' [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/address_mux.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'address_mux' (0#1) [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/address_mux.v:23]
+INFO: [Synth 8-6157] synthesizing module 'memory' [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/memory.v:26]
+INFO: [Synth 8-6155] done synthesizing module 'memory' (0#1) [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/memory.v:26]
+INFO: [Synth 8-6157] synthesizing module 'IR' [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/IR.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'IR' (0#1) [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/IR.v:23]
+INFO: [Synth 8-6157] synthesizing module 'ALU' [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/ALU.v:26]
+INFO: [Synth 8-226] default block is never used [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/ALU.v:37]
+INFO: [Synth 8-6155] done synthesizing module 'ALU' (0#1) [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/ALU.v:26]
+INFO: [Synth 8-6157] synthesizing module 'ACC' [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/ACC.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'ACC' (0#1) [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/ACC.v:23]
+INFO: [Synth 8-6157] synthesizing module 'Controller' [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/Controller.v:3]
+INFO: [Synth 8-226] default block is never used [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/Controller.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'Controller' (0#1) [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/Controller.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'RISC_CPU' (0#1) [C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/RISC_CPU.v:37]
+WARNING: [Synth 8-7129] Port addr[31] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[30] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[29] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[28] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[27] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[26] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[25] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[24] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[23] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[22] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[21] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[20] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[19] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[18] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[17] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[16] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[15] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[14] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[13] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[12] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[11] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[10] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[9] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[8] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[7] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[6] in module memory is either unconnected or has no load
+WARNING: [Synth 8-7129] Port addr[5] in module memory is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1207.469 ; gain = 652.195
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1207.469 ; gain = 652.195
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg400-1
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1207.469 ; gain = 652.195
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'Controller'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                         00000010 |                              000
+                 iSTATE0 |                         10000000 |                              001
+                 iSTATE1 |                         01000000 |                              010
+                 iSTATE2 |                         00100000 |                              011
+                 iSTATE3 |                         00010000 |                              100
+                 iSTATE4 |                         00001000 |                              101
+                 iSTATE5 |                         00000100 |                              110
+                 iSTATE6 |                         00000001 |                              111
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'Controller'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1207.469 ; gain = 652.195
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   32 Bit       Adders := 1     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
++---Registers : 
+	               32 Bit    Registers := 3     
++---RAMs : 
+	             1024 Bit	(32 X 32 bit)          RAMs := 1     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-3332] Sequential element (u_controller/FSM_onehot_state_reg[7]) is unused and will be removed from module RISC_CPU.
+WARNING: [Synth 8-3332] Sequential element (u_controller/FSM_onehot_state_reg[6]) is unused and will be removed from module RISC_CPU.
+WARNING: [Synth 8-3332] Sequential element (u_controller/FSM_onehot_state_reg[5]) is unused and will be removed from module RISC_CPU.
+WARNING: [Synth 8-3332] Sequential element (u_controller/FSM_onehot_state_reg[4]) is unused and will be removed from module RISC_CPU.
+WARNING: [Synth 8-3332] Sequential element (u_controller/FSM_onehot_state_reg[3]) is unused and will be removed from module RISC_CPU.
+WARNING: [Synth 8-3332] Sequential element (u_controller/FSM_onehot_state_reg[2]) is unused and will be removed from module RISC_CPU.
+WARNING: [Synth 8-3332] Sequential element (u_controller/FSM_onehot_state_reg[1]) is unused and will be removed from module RISC_CPU.
+WARNING: [Synth 8-3332] Sequential element (u_controller/FSM_onehot_state_reg[0]) is unused and will be removed from module RISC_CPU.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1415.273 ; gain = 860.000
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1431.039 ; gain = 875.766
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1431.039 ; gain = 875.766
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++-+-----+------+
+| |Cell |Count |
++-+-----+------+
++-+-----+------+
+
+Report Instance Areas: 
++------+---------+-------+------+
+|      |Instance |Module |Cells |
++------+---------+-------+------+
+|1     |top      |       |     0|
++------+---------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 35 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+Synthesis Optimization Complete : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1665.797 ; gain = 1110.523
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1666.848 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1796.602 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: 43592425
+INFO: [Common 17-83] Releasing license: Synthesis
+34 Infos, 35 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 1796.602 ; gain = 1248.664
+INFO: [Common 17-1381] The checkpoint 'C:/Users/DELL/RISC_CPU/RISC_CPU.runs/synth_1/RISC_CPU.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file RISC_CPU_utilization_synth.rpt -pb RISC_CPU_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu May 14 22:06:55 2026...

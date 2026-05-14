@@ -1,0 +1,14 @@
+Time resolution is 1 ps
+=== Bat dau mo phong Address MUX ===
+PASS [Test 1] sel=0 | pc=00000010 | ir=000000ff => mem_addr=000000ff
+PASS [Test 2] sel=1 | pc=00000010 | ir=000000ff => mem_addr=00000010
+PASS [Test 3] sel=1 | pc=00000011 | ir=000000ff => mem_addr=00000011
+PASS [Test 4] sel=0 | pc=00000011 | ir=000000ff => mem_addr=000000ff
+PASS [Test 5] sel=0 | pc=00000011 | ir=deadbeef => mem_addr=deadbeef
+PASS [Test 6] sel=1 | pc=00000000 | ir=00000000 => mem_addr=00000000
+PASS [Test 7] sel=0 | pc=ffffffff | ir=ffffffff => mem_addr=ffffffff
+PASS [Test 8] sel=1 | pc=aaaaaaaa | ir=55555555 => mem_addr=aaaaaaaa
+PASS [Test 9] sel=0 | pc=aaaaaaaa | ir=55555555 => mem_addr=55555555
+=== KET QUA: 9 PASS | 0 FAIL ===
+>>> PASS TOAN BO TEST CASES <<<
+$finish called at time : 109 ns : File "C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sim_1/new/address_mux_tb.v" Line 105
