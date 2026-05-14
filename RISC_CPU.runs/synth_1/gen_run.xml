@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7z020clg400-1" LaunchTime="1778771190" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/program_counter.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7z020clg400-1" LaunchTime="1778773538" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/program_counter.dcp">
   <File Type="PA-TCL" Name="RISC_CPU.tcl"/>
   <File Type="REPORTS-TCL" Name="RISC_CPU_reports.tcl"/>
   <File Type="RDS-RDS" Name="RISC_CPU.vds"/>

@@ -31,7 +31,7 @@ module ACC(
     );
     always @(posedge clk) begin
         if(rst) begin
-            acc_out <= 1'b0;
+            acc_out <= {`DATA_WIDTH{1'b0}};
         end 
         else if(ld_ac) begin
             acc_out <= acc_in;

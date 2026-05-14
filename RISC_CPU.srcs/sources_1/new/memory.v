@@ -39,13 +39,9 @@ module memory (
     // Dùng replication operator {`DATA_WIDTH{1'bz}} để thả Z chuẩn theo số bit.
     assign data = (rd == 1'b1) ? data_out : {`DATA_WIDTH{1'bz}};
 
-    always @(posedge clk) begin
-        if (rd == 1'b1) begin
-            data_out <= ram[addr];
-        end 
-        // Chỉ ghi vào RAM khi wr = 1
-        else if (wr == 1'b1) begin
-            ram[addr] <= data;
-        end
-    end
+   assign data = (rd) ? ram[addr] : {`DATA_WIDTH{1'bz}};
+
+always @(posedge clk) begin
+    if (wr) ram[addr] <= data;
+end
 endmodule

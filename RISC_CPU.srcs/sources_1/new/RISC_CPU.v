@@ -36,7 +36,8 @@
 
 module RISC_CPU (
     input wire clk,
-    input wire rst
+    input wire rst,
+    output wire out_halt
 );
 
     //==========================================================================
@@ -66,7 +67,9 @@ module RISC_CPU (
     wire sel;     // Chọn địa chỉ : SEL_PC=1 (fetch), SEL_IR=0 (data)
     wire rd;      // Kích hoạt đọc bộ nhớ
     wire ld_ir;   // Nạp lệnh vào IR
-    wire halt;    // Dừng CPU khi gặp HLT
+    wire halt;
+    
+
     wire inc_pc;  // Tăng PC + 1
     wire ld_ac;   // Nạp kết quả ALU vào ACC
     wire ld_pc;   // Nạp địa chỉ nhảy vào PC (JMP)
@@ -78,8 +81,7 @@ module RISC_CPU (
     // Dùng làm địa chỉ toán hạng (address_mux) và địa chỉ nhảy (PC khi JMP)
     //==========================================================================
     assign ir_addr = {{(`ADDR_WIDTH - 5){1'b0}}, operand};
-
-    //==========================================================================
+    assign out_halt = halt;    //==========================================================================
     // Program Counter
     //   inc_pc=1 : PC ← PC + 1
     //   ld_pc=1  : PC ← ir_addr  (nhảy vô điều kiện JMP)
@@ -182,4 +184,5 @@ module RISC_CPU (
         .wr      (wr),
         .data_e  (data_e)
     );
+    
 endmodule

@@ -31,16 +31,17 @@ module Controller(
     end
     assign sel    = ((state == `INST_ADDR) || (state == `INST_FETCH) || 
                      (state == `INST_LOAD)  || (state == `IDLE)) ? `SEL_PC : `SEL_IR;
-    assign rd = ((state == `INST_FETCH) || 
-                (state == `INST_LOAD)  || 
-                (state == `IDLE)       || 
-                (is_aluop && ((state == `OP_FETCH) || (state == `ALU_OP) || (state == `STORE)))) ? `READ_MEM : 1'b0;
-    assign ld_ir  = (state == `INST_LOAD) || (state == `IDLE);
+    // Chỉ rd=1 tại INST_FETCH (kích hoạt đọc)
+// Dữ liệu sẵn sàng tại INST_LOAD → ld_ir chỉ cần ở INST_LOAD
+assign rd    = (state == `INST_FETCH) || 
+               (is_aluop && (state == `OP_FETCH));
+assign ld_ir = (state == `INST_LOAD); // bỏ IDLE
     assign halt   = (state == `OP_ADDR) && (opcode == `HLT);
     assign inc_pc = ((state == `OP_ADDR) && (opcode != `HLT)) || 
                     ((state == `ALU_OP) && (opcode == `SKZ) && is_zero);
     assign ld_ac  = (state == `STORE)   && is_aluop;
-    assign ld_pc  = ((state == `ALU_OP) || (state == `STORE)) && (opcode == `JMP);
+    assign ld_pc  = (state == `STORE) && (opcode == `JMP);
+    assign data_e = (state == `STORE) && (opcode == `STO);
     assign wr     = ((state == `STORE)  && (opcode == `STO)) ? `WRITE_MEM : 1'b0;
     assign data_e = ((state == `ALU_OP) || (state == `STORE)) && (opcode == `STO);
     
