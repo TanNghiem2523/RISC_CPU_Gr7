@@ -1,30 +1,15 @@
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="2724" HostCore="24" HostMemory="034029162496">
+    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="10820" HostCore="24" HostMemory="034029162496">
     </Process>
 </ProcessHandle>
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="37764" HostCore="24" HostMemory="034029162496">
+    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="46932" HostCore="24" HostMemory="034029162496">
     </Process>
 </ProcessHandle>
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="16600" HostCore="24" HostMemory="034029162496">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="37208" HostCore="24" HostMemory="034029162496">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="24008" HostCore="24" HostMemory="034029162496">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="31796" HostCore="24" HostMemory="034029162496">
+    <Process Command="vivado.bat" Owner="DELL" Host="DESKTOP-475P6AO" Pid="38396" HostCore="24" HostMemory="034029162496">
     </Process>
 </ProcessHandle>

@@ -31,7 +31,7 @@ module ALU(
     output is_zero       
 );
     // Kiem tra co Zero (Bang 1 neu inA bang 0)
-    assign is_zero = (inA == {`DATA_WIDTH{1'b0}}) ? 1'b1 : 1'b0;
+    assign is_zero = (inA === {`DATA_WIDTH{1'b0}}) ? 1'b1 : 1'b0;
 
     always @(*) begin
         case(opcode)

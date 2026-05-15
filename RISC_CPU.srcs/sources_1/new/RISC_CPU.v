@@ -1,175 +1,107 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Module Name : RISC_CPU
-// Description : Top-level kết nối toàn bộ các module của RISC CPU
-//
-// ┌─────────────────────────────────────────────────────────────────────┐
-// │                      KIẾN TRÚC BUS CHUNG                           │
-// │                                                                     │
-// │  [PC] ──pc_out──► [address_mux] ──mem_addr──► [memory]             │
-// │                         ▲                        │  ▲              │
-// │  [IR].operand ──ir_addr─┘          sel(CTR)      │  │wr(CTR)       │
-// │                                                  │  │              │
-// │                      DATA BUS (tri-state) ◄──────┘  │              │
-// │                           │  ▲                      │              │
-// │           ┌───────────────┼──┼──────────────────────┘              │
-// │           │               │  └─ ACC.data_bus (khi data_e=1)        │
-// │    IR.data_in          ALU.inB                                      │
-// │                           │                                         │
-// │  [ACC].acc_out ──inA──► [ALU] ──alu_out──► [ACC].acc_in            │
-// │                                                                     │
-// │  [Controller] ◄── opcode, is_zero                                  │
-// │       └──────► sel, rd, ld_ir, inc_pc, ld_ac, ld_pc, wr, data_e   │
-// └─────────────────────────────────────────────────────────────────────┘
-//
-// Các giai đoạn FSM (Controller):
-//   INST_ADDR  (000): sel=PC  → chuẩn bị địa chỉ lệnh
-//   INST_FETCH (001): sel=PC  → rd=1, bộ nhớ xuất lệnh lên bus
-//   INST_LOAD  (010): sel=PC  → ld_ir=1, IR chốt lệnh từ bus
-//   IDLE       (011): sel=PC  → giải mã, inc_pc chuẩn bị
-//   OP_ADDR    (100): sel=IR  → chuẩn bị địa chỉ toán hạng (hoặc HALT)
-//   OP_FETCH   (101): sel=IR  → rd=1, bộ nhớ xuất toán hạng lên bus
-//   ALU_OP     (110): sel=IR  → ALU tính toán (SKZ check zero / JMP load PC)
-//   STORE      (111): sel=IR  → ld_ac=1 (ALU ops) / wr=1 (STO) / ld_pc (JMP)
-//////////////////////////////////////////////////////////////////////////////////
 `include "define.v"
 
+//////////////////////////////////////////////////////////////////////////////////
+// Module Name : RISC_CPU (Top-level)
+//
+// FIX 1: Thêm output ports (halt, acc_out, pc_out) để Vivado không xóa logic
+// FIX 2: Thay thế tristate data_bus nội bộ bằng 2 wire riêng:
+//         - mem_data_out : Memory → IR, ALU (đọc)
+//         - acc_out      : ACC   → Memory data_in (ghi khi STO)
+// Lý do: FPGA chỉ hỗ trợ tristate trên I/O pin, không hỗ trợ bên trong chip.
+//////////////////////////////////////////////////////////////////////////////////
+
 module RISC_CPU (
-    input wire clk,
-    input wire rst,
-    output wire out_halt
+    input  wire                    clk,
+    input  wire                    rst,
+    // Output ports bắt buộc để tránh synthesizer xóa toàn bộ logic
+    output wire                    halt,
+    output wire [`DATA_WIDTH-1:0]  acc_out,
+    output wire [`DATA_WIDTH-1:0]  pc_out
 );
 
-    //==========================================================================
-    // BUS DỮ LIỆU CHUNG (Shared Tri-state Data Bus - 32-bit)
-    //   Ai lái bus:
-    //     memory : khi rd   = 1  (xuất lệnh hoặc toán hạng ra bus)
-    //     ACC    : khi data_e = 1 (lệnh STO - đưa giá trị ACC lên bus để ghi)
-    //   Ai đọc bus:
-    //     IR     : qua data_in   (chốt lệnh vào thanh ghi)
-    //     ALU    : qua inB       (đọc toán hạng từ bộ nhớ)
-    //==========================================================================
-    wire [`DATA_WIDTH-1:0] data_bus;
+    // =========================================================
+    // Internal wires
+    // =========================================================
 
-    // --- Địa chỉ ---
-    wire [`ADDR_WIDTH-1:0] pc_out;   // Địa chỉ hiện tại của PC
-    wire [4:0]             operand;  // 5-bit toán hạng từ IR [4:0]
-    wire [`ADDR_WIDTH-1:0] ir_addr;  // operand zero-extended → 32-bit
-    wire [`ADDR_WIDTH-1:0] mem_addr; // Địa chỉ sau MUX → bộ nhớ
+    // FIX: Tách thành 2 wire một chiều thay vì 1 inout tristate
+    wire [`DATA_WIDTH-1:0]   mem_data_out;  // Memory → IR & ALU inB
+    // acc_out đã là output port, dùng trực tiếp làm data_in cho Memory (STO)
 
-    // --- Dữ liệu / Trạng thái ---
-    wire [`OPCODE_WIDTH-1:0] opcode;  // Mã lệnh từ IR [7:5]
-    wire [`DATA_WIDTH-1:0]   acc_out; // Giá trị hiện tại của ACC
-    wire [`DATA_WIDTH-1:0]   alu_out; // Kết quả tính toán ALU
-    wire                     is_zero; // Cờ Zero: ACC = 0
+    wire [`ADDR_WIDTH-1:0]   mem_addr;
+    wire [`OPCODE_WIDTH-1:0] opcode;
+    wire [`ADDR_WIDTH-1:0]   operand;
+    wire [`DATA_WIDTH-1:0]   alu_out;
+    wire                     is_zero;
 
-    // --- Tín hiệu điều khiển (từ Controller) ---
-    wire sel;     // Chọn địa chỉ : SEL_PC=1 (fetch), SEL_IR=0 (data)
-    wire rd;      // Kích hoạt đọc bộ nhớ
-    wire ld_ir;   // Nạp lệnh vào IR
-    wire halt;
-    
+    // Control signals
+    wire sel, rd, ld_ir, inc_pc, ld_ac, ld_pc, wr, data_e;
 
-    wire inc_pc;  // Tăng PC + 1
-    wire ld_ac;   // Nạp kết quả ALU vào ACC
-    wire ld_pc;   // Nạp địa chỉ nhảy vào PC (JMP)
-    wire wr;      // Kích hoạt ghi bộ nhớ (STO)
-    wire data_e;  // Cho phép ACC lái data_bus
+    // =========================================================
+    // Module instantiation
+    // =========================================================
 
-    //==========================================================================
-    // Zero-extend: operand[4:0] → ir_addr[31:0]
-    // Dùng làm địa chỉ toán hạng (address_mux) và địa chỉ nhảy (PC khi JMP)
-    //==========================================================================
-    assign ir_addr = {{(`ADDR_WIDTH - 5){1'b0}}, operand};
-    assign out_halt = halt;    //==========================================================================
-    // Program Counter
-    //   inc_pc=1 : PC ← PC + 1
-    //   ld_pc=1  : PC ← ir_addr  (nhảy vô điều kiện JMP)
-    //   Tên port reset (không phải rst) theo đúng program_counter.v
-    //==========================================================================
+    // 1) Program Counter
     program_counter u_pc (
         .clk    (clk),
         .reset  (rst),
         .inc_pc (inc_pc),
         .ld_pc  (ld_pc),
-        .pc_in  (ir_addr),
+        .pc_in  ({{(`DATA_WIDTH-`ADDR_WIDTH){1'b0}}, operand}),
         .pc_out (pc_out)
     );
 
-    //==========================================================================
-    // Address MUX
-    //   sel=SEL_PC(1) → mem_addr = pc_out   (đang fetch lệnh)
-    //   sel=SEL_IR(0) → mem_addr = ir_addr  (đang truy cập toán hạng)
-    //==========================================================================
-    address_mux u_address_mux (
-        .sel     (sel),
-        .pc_addr (pc_out),
-        .ir_addr (ir_addr),
-        .mem_addr(mem_addr)
+    // 2) Address Mux
+    address_mux u_addr_mux (
+        .sel      (sel),
+        .pc_addr  (pc_out[`ADDR_WIDTH-1:0]),
+        .ir_addr  (operand),
+        .mem_addr (mem_addr)
     );
 
-    //==========================================================================
-    // Memory (inout data bus)
-    //   rd=1 → memory lái data_bus (đọc ra ngoài)
-    //   wr=1 → memory đọc data_bus (ACC đang lái qua data_e)
-    //==========================================================================
-    memory u_memory (
-        .clk  (clk),
-        .addr (mem_addr),
-        .data (data_bus),
-        .rd   (rd),
-        .wr   (wr)
+    // 3) Memory (đã sửa: inout → data_in + data_out riêng)
+    //    data_in = acc_out : khi STO, ghi giá trị ACC vào RAM
+    //    data_out = mem_data_out : khi đọc, cấp cho IR và ALU
+    memory u_mem (
+        .clk      (clk),
+        .addr     (mem_addr),
+        .data_in  (acc_out),
+        .data_out (mem_data_out),
+        .rd       (rd),
+        .wr       (wr)
     );
 
-    //==========================================================================
-    // Instruction Register (IR)
-    //   ld_ir=1 → chốt data_bus vào ir_reg tại posedge clk
-    //   Xuất: opcode = ir_reg[7:5], operand = ir_reg[4:0]
-    //==========================================================================
+    // 4) Instruction Register
     IR u_ir (
         .clk     (clk),
         .rst     (rst),
         .ld_ir   (ld_ir),
-        .data_in (data_bus),
+        .data_in (mem_data_out),
         .opcode  (opcode),
         .operand (operand)
     );
 
-    //==========================================================================
-    // ALU
-    //   inA = acc_out  : toán hạng A (thanh ghi tích lũy)
-    //   inB = data_bus : toán hạng B (dữ liệu từ bộ nhớ)
-    //   is_zero kiểm tra inA=0, phục vụ lệnh SKZ
-    //==========================================================================
+    // 5) ALU
+    //    inA = acc_out | inB = mem_data_out
     ALU u_alu (
         .opcode  (opcode),
         .inA     (acc_out),
-        .inB     (data_bus),
+        .inB     (mem_data_out),
         .out     (alu_out),
         .is_zero (is_zero)
     );
 
-    //==========================================================================
-    // Accumulator (ACC)
-    //   ld_ac=1  : acc_out ← alu_out  (cập nhật kết quả tính toán)
-    //   data_e=1 : acc_out → data_bus  (lái bus để ghi vào bộ nhớ - STO)
-    //==========================================================================
+    // 6) Accumulator (đã sửa: bỏ data_bus tristate)
     ACC u_acc (
-        .clk      (clk),
-        .rst      (rst),
-        .ld_ac    (ld_ac),
-        .acc_in   (alu_out),
-        .data_e   (data_e),
-        .acc_out  (acc_out),
-        .data_bus (data_bus)
+        .clk     (clk),
+        .rst     (rst),
+        .ld_ac   (ld_ac),
+        .acc_in  (alu_out),
+        .acc_out (acc_out)
     );
 
-    //==========================================================================
-    // Controller (FSM 8 trạng thái)
-    //   Đầu vào : opcode, is_zero
-    //   Đầu ra  : toàn bộ tín hiệu điều khiển hệ thống
-    //==========================================================================
-    Controller u_controller (
+    // 7) Controller
+    Controller u_ctrl (
         .clk     (clk),
         .rst     (rst),
         .is_zero (is_zero),
@@ -184,5 +116,5 @@ module RISC_CPU (
         .wr      (wr),
         .data_e  (data_e)
     );
-    
+
 endmodule

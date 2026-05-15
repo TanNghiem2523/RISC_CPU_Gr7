@@ -126,6 +126,7 @@ OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
   add_files -quiet C:/Users/DELL/RISC_CPU/RISC_CPU.runs/synth_1/RISC_CPU.dcp
 OPTRACE "read constraints: implementation" START { }
+  read_xdc C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/constrs_1/new/dummy_constraints.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "read constraints: implementation_pre" START { }
 OPTRACE "read constraints: implementation_pre" END { }

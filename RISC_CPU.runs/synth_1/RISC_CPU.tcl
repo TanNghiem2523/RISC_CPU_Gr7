@@ -59,7 +59,6 @@ OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param checkpoint.writeSynthRtdsInDcp 1
 set_param general.usePosixSpawnForFork 1
 set_param chipscope.maxJobs 6
-set_param synth.incrementalSynthesisCache C:/Users/DELL/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-23588-DESKTOP-475P6AO/incrSyn
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
@@ -83,11 +82,11 @@ OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
   C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/define.v
   C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/ACC.v
-  C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/ALU.v
+  {C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/ALU .v}
   C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/Controller.v
   C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/IR.v
   C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/address_mux.v
-  C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/memory.v
+  {C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/memory .v}
   C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/program_counter.v
   C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sources_1/new/RISC_CPU.v
 }
@@ -100,6 +99,9 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/constrs_1/new/dummy_constraints.xdc
+set_property used_in_implementation false [get_files C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/constrs_1/new/dummy_constraints.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
 
 read_checkpoint -auto_incremental -incremental C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/utils_1/imports/synth_1/program_counter.dcp

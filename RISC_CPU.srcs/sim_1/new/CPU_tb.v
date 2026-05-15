@@ -6,11 +6,13 @@ module RISC_CPU_tb;
     // --- Tín hiệu điều khiển ---
     reg clk;
     reg rst;
+    wire cpu_active; // Thêm dây để kết nối với ngõ ra Dummy Output của CPU
 
     // --- Kết nối với khối CPU tổng ---
     RISC_CPU dut (
         .clk(clk),
-        .rst(rst)
+        .rst(rst),
+        .cpu_active(cpu_active) // Kết nối ngõ ra mới để tránh cảnh báo floating port
     );
 
     // --- Tạo xung nhịp Clock ---
@@ -127,10 +129,10 @@ module RISC_CPU_tb;
     end
 
     // --- Monitor: In ra quá trình chạy của FSM ---
-    // (Bỏ comment dòng dưới nếu bạn muốn xem chi tiết từng nhịp clock trên console)
+    // Cập nhật: Thay đổi 'dut.data_bus' thành 'dut.mem_data_out' cho phù hợp kiến trúc Split-Bus
     // initial begin
-    //     $monitor("Time=%0t | State=%b | PC=%d | IR=%h | ACC=%h | Bus=%h", 
-    //              $time, dut.u_controller.state, dut.u_pc.pc_out, dut.u_ir.ir_reg, dut.u_acc.acc_out, dut.data_bus);
+    //     $monitor("Time=%0t | State=%b | PC=%d | IR=%h | ACC=%h | ReadBus=%h", 
+    //              $time, dut.u_controller.state, dut.u_pc.pc_out, dut.u_ir.ir_reg, dut.u_acc.acc_out, dut.mem_data_out);
     // end
 
 endmodule

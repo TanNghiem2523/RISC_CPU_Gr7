@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7z020clg400-1" LaunchTime="1778773538" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/program_counter.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7z020clg400-1" LaunchTime="1778817307" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/program_counter.dcp">
   <File Type="PA-TCL" Name="RISC_CPU.tcl"/>
   <File Type="REPORTS-TCL" Name="RISC_CPU_reports.tcl"/>
   <File Type="RDS-RDS" Name="RISC_CPU.vds"/>
@@ -26,7 +26,7 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/ALU.v">
+    <File Path="$PSRCDIR/sources_1/new/ALU .v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -54,7 +54,7 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/memory.v">
+    <File Path="$PSRCDIR/sources_1/new/memory .v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -82,6 +82,12 @@
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
     <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/new/dummy_constraints.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="ConstrsType" Val="XDC"/>
     </Config>
