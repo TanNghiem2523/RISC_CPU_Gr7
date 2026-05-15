@@ -3,8 +3,8 @@
 # SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
 # IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
 # SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
-# Start of session at: Fri May 15 11:17:00 2026
-# Process ID         : 26112
+# Start of session at: Fri May 15 19:35:47 2026
+# Process ID         : 43232
 # Current directory  : C:/Users/DELL/RISC_CPU/RISC_CPU.runs/impl_1
 # Command line       : vivado.exe -log RISC_CPU.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source RISC_CPU.tcl -notrace
 # Log file           : C:/Users/DELL/RISC_CPU/RISC_CPU.runs/impl_1/RISC_CPU.vdi
@@ -17,8 +17,8 @@
 # CPU Physical cores : 16
 # CPU Logical cores  : 24
 # Host memory        : 34029 MB
-# Swap memory        : 4266 MB
-# Total Virtual      : 38295 MB
-# Available Virtual  : 7679 MB
+# Swap memory        : 3000 MB
+# Total Virtual      : 37029 MB
+# Available Virtual  : 8826 MB
 #-----------------------------------------------------------
 source RISC_CPU.tcl -notrace

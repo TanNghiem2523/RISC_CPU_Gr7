@@ -29,6 +29,22 @@ module Controller(
             default:     next_state = `INST_ADDR;
         endcase
     end
+//    assign sel    = ((state == `INST_ADDR) || (state == `INST_FETCH) || 
+//                     (state == `INST_LOAD)  || (state == `IDLE)) ? `SEL_PC : `SEL_IR;
+//    // Chỉ rd=1 tại INST_FETCH (kích hoạt đọc)
+//// Dữ liệu sẵn sàng tại INST_LOAD → ld_ir chỉ cần ở INST_LOAD
+//assign rd = (state == `INST_FETCH || state == `INST_LOAD) || 
+//                (is_aluop && (state == `OP_FETCH || state == `ALU_OP || state == `STORE));
+//assign ld_ir = (state == `INST_LOAD); // bỏ IDLE
+//    assign halt   = (state == `OP_ADDR) && (opcode == `HLT);
+//    assign inc_pc = (rst) ? 1'b0 :
+//                    ((state == `OP_ADDR) && (opcode != `HLT)) || 
+//                    ((state == `ALU_OP) && (opcode == `SKZ) && (is_zero === 1'b1));
+//    assign ld_ac  = (state == `STORE)   && is_aluop;
+//    assign ld_pc  = (state == `STORE) && (opcode == `JMP);
+//    assign data_e = (state == `STORE) && (opcode == `STO);
+//    assign wr     = ((state == `STORE)  && (opcode == `STO)) ? `WRITE_MEM : 1'b0;
+// sel: Giữ nguyên như bạn đã làm (Đúng theo ảnh)
     assign sel = ((state == `INST_ADDR) || (state == `INST_FETCH) || 
                   (state == `INST_LOAD) || (state == `IDLE)) ? `SEL_PC : `SEL_IR;
 
@@ -55,4 +71,5 @@ module Controller(
 
     // halt: Vẫn giữ ở OP_ADDR để dừng sớm
     assign halt  = (state == `OP_ADDR) && (opcode == `HLT);
+    
 endmodule

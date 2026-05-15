@@ -1,19 +1,41 @@
 `timescale 1ns / 1ps
-`include "define.v"
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 05/06/2026 08:34:54 PM
+// Design Name: 
+// Module Name: ACC
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
 
-// FIX: Bỏ data_bus tristate nội bộ
-// acc_out luôn có giá trị; top-level sẽ dùng nó trực tiếp khi cần (STO)
+`include "define.v"
 module ACC(
-    input  wire                    clk,
-    input  wire                    rst,
-    input  wire                    ld_ac,
-    input  wire [`DATA_WIDTH-1:0]  acc_in,
-    output reg  [`DATA_WIDTH-1:0]  acc_out
-);
+    input clk, 
+    input rst, 
+    input ld_ac,
+    input [`DATA_WIDTH-1:0] acc_in, 
+    input data_e,
+    output reg[`DATA_WIDTH-1:0] acc_out,
+    output wire[`DATA_WIDTH-1:0] data_bus
+    );
     always @(posedge clk) begin
-        if (rst)
+        if(rst) begin
             acc_out <= {`DATA_WIDTH{1'b0}};
-        else if (ld_ac)
+        end 
+        else if(ld_ac) begin
             acc_out <= acc_in;
+        end
     end
+    assign data_bus = (data_e) ? acc_out : {`DATA_WIDTH{1'bz}};
 endmodule

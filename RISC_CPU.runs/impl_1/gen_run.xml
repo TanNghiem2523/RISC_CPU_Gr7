@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7z020clg400-1" LaunchTime="1778818614">
+<GenRun Id="impl_1" LaunchPart="xc7z020clg400-1" LaunchTime="1778848540">
   <File Type="PA-TCL" Name="RISC_CPU.tcl"/>
   <File Type="REPORTS-TCL" Name="RISC_CPU_reports.tcl"/>
   <File Type="INIT-TIMING" Name="RISC_CPU_timing_summary_init.rpt"/>
