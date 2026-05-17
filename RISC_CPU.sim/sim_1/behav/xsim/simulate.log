@@ -1,0 +1,294 @@
+Time resolution is 1 ps
+
+===========================================================
+|  TEST 01:                                 LDA / ADD / STO / HLT (baseline)
+===========================================================
+  [SIM TIME: 0 ns]
+  LDA [20]=05, ADD [21]=03, STO [22], HLT
+  Expect: ACC=08h  mem[22]=08h
+  [PASS]                ACC after ADD actual=08  expected=08
+  [PASS]                mem[22] (STO) actual=08  expected=08
+  [PASS]               mem[20] intact actual=05  expected=05
+
+===========================================================
+|  TEST 02:                                                        AND / XOR
+===========================================================
+  [SIM TIME: 335000 ns]
+  LDA FF, AND 0F -> 0F, XOR AA -> A5, STO, HLT
+  Expect: ACC=A5h  mem[23]=A5h
+  [PASS]                ACC after XOR actual=a5  expected=a5
+  [PASS]                mem[23] (STO) actual=a5  expected=a5
+
+===========================================================
+|  TEST 03:                                            SKZ - skip when ACC=0
+===========================================================
+  [SIM TIME: 755000 ns]
+  LDA 00, SKZ -> skip ADD 55, STO, HLT
+  Expect: ACC=00h  mem[22]=00h
+  [PASS]             CC (skip active) actual=00  expected=00
+  [PASS]              mem[22] skipped actual=00  expected=00
+  [DONE] TEST 03 complete at t=1095000
+
+===========================================================
+|  TEST 04:                                       SKZ - no skip when ACCÿÿ 0
+===========================================================
+  [SIM TIME: 1095000 ns]
+  LDA 07, SKZ (no-skip), ADD 01, STO, HLT
+  Expect: ACC=08h  mem[22]=08h
+  [PASS]                ACC (no skip) actual=08  expected=08
+  [PASS]                      mem[22] actual=08  expected=08
+
+===========================================================
+|  TEST 05:                                         JMP - unconditional jump
+===========================================================
+  [SIM TIME: 1515000 ns]
+  LDA 01, JMP 4 (skip 2Ã—ADD FF), STO, HLT
+  Expect: ACC=01h  mem[22]=01h
+  [PASS]                ACC after JMP actual=01  expected=01
+  [PASS]                mem[22] (JMP) actual=01  expected=01
+
+===========================================================
+|  TEST 06:                                 ADD overflow (8-bit wrap-around)
+===========================================================
+  [SIM TIME: 1855000 ns]
+  LDA FF, ADD 01 -> overflow 00h, STO, HLT
+  Expect: ACC=00h  mem[22]=00h
+  [PASS]                  mem[22] ovf actual=00  expected=00
+
+===========================================================
+|  TEST 07:                                   ADD large values (no overflow)
+===========================================================
+  [SIM TIME: 2195000 ns]
+  LDA 7F, ADD 7F -> FEh, STO, HLT
+  Expect: ACC=FEh  mem[22]=FEh
+  [PASS]                    ACC 7F+7F actual=fe  expected=fe
+  [PASS]                      mem[22] actual=fe  expected=fe
+
+===========================================================
+|  TEST 08:                              XOR selÿÿÿ†’ ACC=0 (zero detection)
+===========================================================
+  [SIM TIME: 2535000 ns]
+  LDA A3, STO 21, XOR 21 (self) -> 00h, STO 22, HLT
+  Expect: ACC=00h  mem[22]=00h
+  [PASS]               XOR seÿÿÿâÿ’ 0 actual=00  expected=00
+  [PASS]                    mem[22]=0 actual=00  expected=00
+
+===========================================================
+|  TEST 09:                                            AND mask=ÿÿÿâÿ’ ACC=0
+===========================================================
+  [SIM TIME: 2955000 ns]
+  LDA FF, AND 00 -> 00h, STO, HLT
+  Expect: ACC=00h  mem[22]=00h
+  [PASS]                   AND with 0 actual=00  expected=00
+  [PASS]                    mem[22]=0 actual=00  expected=00
+
+===========================================================
+|  TEST 10:                                    AND mask=ÿÿÿâÿ’ ACC unchanged
+===========================================================
+  [SIM TIME: 3295000 ns]
+  LDA B7, AND FF -> B7h (unchanged), STO, HLT
+  Expect: ACC=B7h  mem[22]=B7h
+  [PASS]                  AND with FF actual=b7  expected=b7
+  [PASS]                   mem[22]=B7 actual=b7  expected=b7
+
+===========================================================
+|  TEST 11:                                         XOR 0xFFÿÿÿ’ bitwise NOT
+===========================================================
+  [SIM TIME: 3635000 ns]
+  LDA 3C, XOR FF -> C3h (bitwise NOT), STO, HLT
+  Expect: ACC=C3h  mem[22]=C3h
+  [PASS]                 XOR FF = NOT actual=c3  expected=c3
+  [PASS]                   mem[22]=C3 actual=c3  expected=c3
+
+===========================================================
+|  TEST 12:                                   LDA / STO - pure data transfer
+===========================================================
+  [SIM TIME: 3975000 ns]
+  LDA DE, STO 21, HLT
+  Expect: ACC=DEh  mem[21]=DEh
+  [PASS]                     ACC = DE actual=de  expected=de
+  [PASS]                   mem[21]=DE actual=de  expected=de
+
+===========================================================
+|  TEST 13:                                           Multi-ADD accumulation
+===========================================================
+  [SIM TIME: 4235000 ns]
+  LDA 02, ADD 05, ADD 05, ADD 05, STO, HLT
+  Expect: ACC=11h  mem[22]=11h
+  [PASS]                    ACC accum actual=11  expected=11
+  [PASS]                   mem[22]=11 actual=11  expected=11
+
+===========================================================
+|  TEST 14:                                    ADD overflow chain (cascaded)
+===========================================================
+  [SIM TIME: 4735000 ns]
+  LDA FE, ADD FE -> FC (ovf), ADD FE -> FA, STO, HLT
+  Expect: ACC=FAh  mem[22]=FAh
+  [PASS]                   mem[22]=FA actual=fa  expected=fa
+
+===========================================================
+|  TEST 15:                      SKZ + JMP - conditional branch (ACC=0 path)
+===========================================================
+  [SIM TIME: 5155000 ns]
+  ACC=00 â†’ SKZ skip JMP â†’ STO mem[23], HLT
+  Expect: mem[23]=00h  mem[24]=00h(uninit)
+  [PASS]                   mem[23]=00 actual=00  expected=00
+  [PASS]                   mem[24]=00 actual=00  expected=00
+
+===========================================================
+|  TEST 16:                    SKZ + JMP - conditional branch (Aÿÿÿ‰ 0 path)
+===========================================================
+  [SIM TIME: 5495000 ns]
+  ACC=AB â†’ SKZ no-skip â†’ JMP 5 â†’ STO mem[24], HLT
+  Expect: mem[24]=ABh  mem[23]=00h(uninit)
+  [PASS]                   mem[24]=AB actual=ab  expected=ab
+  [PASS]                   mem[23]=00 actual=00  expected=00
+
+===========================================================
+|  TEST 17:                                   XOR-self zero-detect loop exit
+===========================================================
+  [SIM TIME: 5915000 ns]
+  XOR-self detect zero, skip JMP, STO result=0
+  Expect: ACC=00h  mem[22]=00h
+  [PASS]              = 0 (loop exit) actual=00  expected=00
+  [PASS]                    mem[22]=0 actual=00  expected=00
+
+===========================================================
+|  TEST 18:                                    JMP chaining (multiple jumps)
+===========================================================
+  [SIM TIME: 6415000 ns]
+  LDA CA, JMP 5 -> JMP 8 -> STO, HLT (skip all ADDs)
+  Expect: ACC=CAh  mem[22]=CAh
+  [PASS]              after chain JMP actual=ca  expected=ca
+  [PASS]                   mem[22]=CA actual=ca  expected=ca
+
+===========================================================
+|  TEST 19:                                                Multi-STO fan-out
+===========================================================
+  [SIM TIME: 6835000 ns]
+  LDA 5A, STO 21, STO 22, STO 23, HLT
+  Expect: mem[21]=mem[22]=mem[23]=5Ah
+  [PASS]                   mem[21]=5A actual=5a  expected=5a
+  [PASS]                   mem[22]=5A actual=5a  expected=5a
+  [PASS]                   mem[23]=5A actual=5a  expected=5a
+
+===========================================================
+|  TEST 20:                                  Write-then-read (mem overwrite)
+===========================================================
+  [SIM TIME: 7255000 ns]
+  STO 11->21, STO 99->21(overwrite), LDA 21, STO 23, HLT
+  Expect: ACC=99h  mem[23]=99h
+  [PASS]                     ACC = 99 actual=99  expected=99
+  [PASS]                   mem[23]=99 actual=99  expected=99
+  [PASS]                   mem[21]=99 actual=99  expected=99
+
+===========================================================
+|  TEST 21:                                       AND high-nibble + XOR flip
+===========================================================
+  [SIM TIME: 7835000 ns]
+  LDA F5, AND F0 -> F0, XOR 55 -> A5, STO, HLT
+  Expect: ACC=A5h  mem[23]=A5h
+  [PASS]                     ACC = A5 actual=a5  expected=a5
+  [PASS]                   mem[23]=A5 actual=a5  expected=a5
+
+===========================================================
+|  TEST 22:                                     LDA from high memory address
+===========================================================
+  [SIM TIME: 8255000 ns]
+  LDA from addr 31 (5-bit max), STO 30, HLT
+  Expect: ACC=BEh  mem[30]=BEh
+  [PASS]                     ACC = BE actual=be  expected=be
+  [PASS]                   mem[30]=BE actual=be  expected=be
+
+===========================================================
+|  TEST 23:                                          ADD identity (add zero)
+===========================================================
+  [SIM TIME: 8515000 ns]
+  LDA 42, ADD 00 -> 42 (unchanged), STO, HLT
+  Expect: ACC=42h  mem[22]=42h
+  [PASS]                     ACC = 42 actual=42  expected=42
+  [PASS]                   mem[22]=42 actual=42  expected=42
+
+===========================================================
+|  TEST 24:                                 Immediate double-reset stability
+===========================================================
+  [SIM TIME: 8855000 ns]
+  Double-reset then LDA AA, STO 21, HLT
+  Expect: ACC=AAh  mem[21]=AAh
+  [PASS]                     ACC = AA actual=aa  expected=aa
+  [PASS]                   mem[21]=AA actual=aa  expected=aa
+
+===========================================================
+|  TEST 25:                                              Chained AND masking
+===========================================================
+  [SIM TIME: 9165000 ns]
+  LDA AB, AND F0 -> A0, AND 0F -> 00, STO, HLT
+  Expect: ACC=00h  mem[23]=00h
+  [PASS]                AND chain = 0 actual=00  expected=00
+  [PASS]                    mem[23]=0 actual=00  expected=00
+
+===========================================================
+|  TEST 26:                                    Full ALU pipeline integration
+===========================================================
+  [SIM TIME: 9585000 ns]
+  36+12=48, AND F0=40, XOR 0F=4F, STO 24
+  LDA 4F, ADD 01=50, STO 26, HLT
+  Expect: ACC=50h  mem[24]=4Fh  mem[26]=50h
+  [PASS]                   mem[24]=4F actual=4f  expected=4f
+  [PASS]                 ACC final=50 actual=50  expected=50
+  [PASS]                   mem[26]=50 actual=50  expected=50
+
+===========================================================
+|  TEST 27:                 [CPU_tb] LDA 5 / ADD 3 / STO / HLT (integration)
+===========================================================
+  [SIM TIME: 10325000 ns]
+  [CPU_tb] LDA mem[20]=5, ADD mem[21]=3, STO mem[22], HLT
+  Expect : ACC=08h  mem[22]=08h (decimal 8)
+  [MON] t=            10386000 PC=00 state=2 op=000 ACC=00 halt=0
+  [MON] t=            10396000 PC=00 state=3 op=101 ACC=00 halt=0
+  [MON] t=            10406000 PC=00 state=4 op=101 ACC=00 halt=0
+  [MON] t=            10416000 PC=01 state=5 op=101 ACC=00 halt=0
+  [MON] t=            10426000 PC=01 state=6 op=101 ACC=00 halt=0
+  [MON] t=            10436000 PC=01 state=7 op=101 ACC=00 halt=0
+  [MON] t=            10446000 PC=01 state=0 op=101 ACC=05 halt=0
+  [MON] t=            10456000 PC=01 state=1 op=101 ACC=05 halt=0
+  [MON] t=            10466000 PC=01 state=2 op=101 ACC=05 halt=0
+  [MON] t=            10476000 PC=01 state=3 op=010 ACC=05 halt=0
+  [MON] t=            10486000 PC=01 state=4 op=010 ACC=05 halt=0
+  [MON] t=            10496000 PC=02 state=5 op=010 ACC=05 halt=0
+  [MON] t=            10506000 PC=02 state=6 op=010 ACC=05 halt=0
+  [MON] t=            10516000 PC=02 state=7 op=010 ACC=05 halt=0
+  [MON] t=            10526000 PC=02 state=0 op=010 ACC=08 halt=0
+  --- FINAL RESULT CHECK (CPU_tb style) ---
+  Mem[22] (Expected 8): 8
+  [PASS]              [CPU_tb] ACC=08 actual=08  expected=08
+  [PASS]             PU_tb] mem[22]=8 actual=08  expected=08
+
+===========================================================
+|  TEST 28:                        [CPU2_tb] Full chain: ADD/SKZ/JMP/XOR/AND
+===========================================================
+  [SIM TIME: 10665000 ns]
+  BÆ°á»›c 1: LDA 5, ADD 3 -> AC=8, STO mem[22]
+  BÆ°á»›c 2: SKZ(8â‰ 0,no-skip) -> JMP 6 -> skip ADD
+  BÆ°á»›c 3: XOR 5 -> 13, AND 3 -> 1, STO mem[23]
+  BÆ°á»›c 4: LDA 24(=0) -> SKZ(skip STO 25) -> HLT
+  Expect : mem[22]=08h, mem[23]=01h, mem[25]=00h(untouched)
+  --- FINAL RESULT CHECK (CPU2_tb style) ---
+  Mem[22] (Expected 8) : 8
+  Mem[23] (Expected 1) : 1
+  Mem[25] (Expected 0) : 0
+  [PASS]             U2_tb] mem[22]=8 actual=08  expected=08
+  [PASS]             U2_tb] mem[23]=1 actual=01  expected=01
+  [PASS]              mem[25]=0(skip) actual=00  expected=00
+  [PASS]             _tb] ACC final=0 actual=00  expected=00
+
+===========================================================
+|                      SUMMARY                             |
+-----------------------------------------------------------
+|  Total Tests : 28                                        |
+|  Passed      :  60                                        |
+|  Failed      :   0                                        |
+|  Status      : ALL TESTS PASSED  [PASS]                  |
+===========================================================
+
+$finish called at time : 11565 ns : File "C:/Users/DELL/RISC_CPU/RISC_CPU.srcs/sim_1/new/cpu_risc_tb.v" Line 830

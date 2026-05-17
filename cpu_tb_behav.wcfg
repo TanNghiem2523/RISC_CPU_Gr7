@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="cpu_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="cpu_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="608.018 ns"></ZoomEndTime>
+      <Cursor1Time time="1,000.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="150"></NameColumnWidth>
+      <ValueColumnWidth column_width="102"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="27" />
+   <wvobject fp_name="/cpu_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/out_halt" type="logic">
+      <obj_property name="ElementShortName">out_halt</obj_property>
+      <obj_property name="ObjectShortName">out_halt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/pass_cnt" type="array">
+      <obj_property name="ElementShortName">pass_cnt[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pass_cnt[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/fail_cnt" type="array">
+      <obj_property name="ElementShortName">fail_cnt[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fail_cnt[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/test_num" type="array">
+      <obj_property name="ElementShortName">test_num[31:0]</obj_property>
+      <obj_property name="ObjectShortName">test_num[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/out_halt" type="logic">
+      <obj_property name="ElementShortName">out_halt</obj_property>
+      <obj_property name="ObjectShortName">out_halt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/data_bus" type="array">
+      <obj_property name="ElementShortName">data_bus[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_bus[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/pc_out" type="array">
+      <obj_property name="ElementShortName">pc_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pc_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/operand" type="array">
+      <obj_property name="ElementShortName">operand[4:0]</obj_property>
+      <obj_property name="ObjectShortName">operand[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/ir_addr" type="array">
+      <obj_property name="ElementShortName">ir_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ir_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/mem_addr" type="array">
+      <obj_property name="ElementShortName">mem_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/opcode" type="array">
+      <obj_property name="ElementShortName">opcode[2:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/acc_out" type="array">
+      <obj_property name="ElementShortName">acc_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">acc_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/alu_out" type="array">
+      <obj_property name="ElementShortName">alu_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">alu_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/is_zero" type="logic">
+      <obj_property name="ElementShortName">is_zero</obj_property>
+      <obj_property name="ObjectShortName">is_zero</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/sel" type="logic">
+      <obj_property name="ElementShortName">sel</obj_property>
+      <obj_property name="ObjectShortName">sel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/rd" type="logic">
+      <obj_property name="ElementShortName">rd</obj_property>
+      <obj_property name="ObjectShortName">rd</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/ld_ir" type="logic">
+      <obj_property name="ElementShortName">ld_ir</obj_property>
+      <obj_property name="ObjectShortName">ld_ir</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/halt" type="logic">
+      <obj_property name="ElementShortName">halt</obj_property>
+      <obj_property name="ObjectShortName">halt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/inc_pc" type="logic">
+      <obj_property name="ElementShortName">inc_pc</obj_property>
+      <obj_property name="ObjectShortName">inc_pc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/ld_ac" type="logic">
+      <obj_property name="ElementShortName">ld_ac</obj_property>
+      <obj_property name="ObjectShortName">ld_ac</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/ld_pc" type="logic">
+      <obj_property name="ElementShortName">ld_pc</obj_property>
+      <obj_property name="ObjectShortName">ld_pc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/wr" type="logic">
+      <obj_property name="ElementShortName">wr</obj_property>
+      <obj_property name="ObjectShortName">wr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cpu_tb/dut/data_e" type="logic">
+      <obj_property name="ElementShortName">data_e</obj_property>
+      <obj_property name="ObjectShortName">data_e</obj_property>
+   </wvobject>
+</wave_config>

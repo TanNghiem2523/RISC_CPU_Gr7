@@ -1,13 +1,8 @@
 `timescale 1ns / 1ps
 `include "define.v"
 
-// ============================================================
-// PC_tb.v - Testbench for Program Counter (PC)
-// Covers 9 scenarios including edge cases and normal operations
-// ============================================================
 module PC_tb;
 
-    // ── Signals ─────────────────────────────────────────
     reg                    clk;
     reg                    reset;
     reg                    ld_pc;
@@ -15,7 +10,6 @@ module PC_tb;
     reg  [`DATA_WIDTH-1:0] pc_in;
     wire [`DATA_WIDTH-1:0] pc_out;
 
-    // ── DUT instantiation ────────────────────────────────
     program_counter uut (
         .clk     (clk),
         .reset   (reset),
@@ -25,7 +19,6 @@ module PC_tb;
         .pc_out  (pc_out)
     );
 
-    // ── Clock: 10 ns period ──────────────────────────────
     initial clk = 0;
     always #5 clk = ~clk;
 

@@ -123,7 +123,7 @@ module cpu_tb;
         clk      = 0;
 
         // ==================================================================
-        // TEST 1: LDA + ADD + STO + HLT  (baseline)
+        // TEST 1: LDA + ADD + STO + HLT  
         // ==================================================================
         print_header("LDA / ADD / STO / HLT (baseline)");
         cpu_reset;
@@ -393,7 +393,7 @@ module cpu_tb;
         check("mem[22]=11",  dut.u_memory.ram[22], 8'h11);
 
         // ==================================================================
-        // TEST 14: ADD overflow chain (cascaded carries)
+        // TEST 14: ADD overflow chain 
         // ==================================================================
         print_header("ADD overflow chain (cascaded)");
         cpu_reset;
@@ -406,14 +406,14 @@ module cpu_tb;
         dut.u_memory.ram[20] = 8'hFE;
         dut.u_memory.ram[21] = 8'hFE;
 
-        // FE + FE = 0xFC (carry out discarded), FC + FE = 0xFA
+        // FE + FE = 0xFC , FC + FE = 0xFA
         $display("  LDA FE, ADD FE -> FC (ovf), ADD FE -> FA, STO, HLT");
         $display("  Expect: ACC=FAh  mem[22]=FAh");
         wait_halt(120);
         check("mem[22]=FA",     dut.u_memory.ram[22], 8'hFA);
 
         // ==================================================================
-        // TEST 15: SKZ → JMP (conditional branch pattern)
+        // TEST 15: SKZ → JMP 
         //          Nếu ACC = 0 → bỏ qua JMP → dừng tại HLT sớm
         //          Nếu ACC ≠ 0 → thực thi JMP → nhảy đến STO+HLT khác
         // ==================================================================
@@ -562,8 +562,7 @@ module cpu_tb;
         check("mem[21]=99",  dut.u_memory.ram[21], 8'h99);
 
         // ==================================================================
-        // TEST 20: AND + XOR pipeline phức tạp
-        //   Bitmask extraction: lấy nibble cao rồi XOR flip
+        // TEST 20: AND + XOR pipeline phức tạp 
         // ==================================================================
         print_header("AND high-nibble + XOR flip");
         cpu_reset;
@@ -574,7 +573,7 @@ module cpu_tb;
         dut.u_memory.ram[3]  = {`STO, 5'd23};
         dut.u_memory.ram[4]  = {`HLT, 5'd0};
         dut.u_memory.ram[20] = 8'hF5;
-        dut.u_memory.ram[21] = 8'hF0;   // high-nibble mask
+        dut.u_memory.ram[21] = 8'hF0;  
         dut.u_memory.ram[22] = 8'h55;
 
         // F5 AND F0 = F0,  F0 XOR 55 = A5
@@ -604,13 +603,13 @@ module cpu_tb;
         check("mem[30]=BE",  dut.u_memory.ram[30], 8'hBE);
 
         // ==================================================================
-        // TEST 22: ADD với giá trị 0 (identity element)
+        // TEST 22: ADD với giá trị 0 
         // ==================================================================
         print_header("ADD identity (add zero)");
         cpu_reset;
 
         dut.u_memory.ram[0]  = {`LDA, 5'd20};
-        dut.u_memory.ram[1]  = {`ADD, 5'd21};   // +0
+        dut.u_memory.ram[1]  = {`ADD, 5'd21};   
         dut.u_memory.ram[2]  = {`STO, 5'd22};
         dut.u_memory.ram[3]  = {`HLT, 5'd0};
         dut.u_memory.ram[20] = 8'h42;
@@ -624,11 +623,11 @@ module cpu_tb;
         check("mem[22]=42",  dut.u_memory.ram[22], 8'h42);
 
         // ==================================================================
-        // TEST 23: Immediate reset - cpu_reset ổn định (test harness)
+        // TEST 23: Immediate reset - cpu_reset ổn định
         // ==================================================================
         print_header("Immediate double-reset stability");
         cpu_reset;
-        cpu_reset;   // reset hai lần liên tiếp
+        cpu_reset; 
 
         dut.u_memory.ram[0]  = {`LDA, 5'd20};
         dut.u_memory.ram[1]  = {`STO, 5'd21};
@@ -643,7 +642,7 @@ module cpu_tb;
         check("mem[21]=AA",  dut.u_memory.ram[21], 8'hAA);
 
         // ==================================================================
-        // TEST 24: AND + AND (chained masking, lower nibble extract)
+        // TEST 24: AND + AND 
         // ==================================================================
         print_header("Chained AND masking");
         cpu_reset;
@@ -666,7 +665,7 @@ module cpu_tb;
         check("mem[23]=0",      dut.u_memory.ram[23], 8'h00);
 
         // ==================================================================
-        // TEST 25: Toàn bộ lệnh ALU chuỗi dài (integration)
+        // TEST 25: Toàn bộ lệnh ALU chuỗi dài 
         //   LDA → ADD → AND → XOR → STO → LDA kết quả → ADD → STO → HLT
         // ==================================================================
         print_header("Full ALU pipeline integration");
@@ -749,11 +748,8 @@ module cpu_tb;
         check("[CPU_tb] mem[22]=8", dut.u_memory.ram[22], 8'h08);
 
         // ==================================================================
-        // TEST 27: [CPU2_tb] Full integration - ADD/SKZ/JMP/XOR/AND chain
+        // TEST 27: [CPU2_tb] - ADD/SKZ/JMP/XOR/AND chain
         // ------------------------------------------------------------------
-        // Nguồn gốc : CPU2_tb (tìm trên mạng, module tên "CPU")
-        // Thích nghi : đổi sang RISC_CPU + dut.u_memory.ram[] + define macros
-        //
         // Verify encoding gốc:
         //   0xB4=LDA 20, 0x55=ADD 21, 0xD6=STO 22, 0x20=SKZ
         //   0xE6=JMP  6, 0x55=ADD 21, 0x94=XOR 20, 0x75=AND 21
