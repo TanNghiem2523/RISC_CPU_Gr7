@@ -20,22 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-`include "define.v" // Chèn file define để lấy thông số
+`include "define.v"
 
 module memory (
     input clk,
-    input  [`ADDR_WIDTH-1:0] addr,     // Tự động lấy độ rộng địa chỉ (32-bit)
-    inout  [`DATA_WIDTH-1:0] data,     // Tự động lấy độ rộng dữ liệu (32-bit)
-    input rd,              // Tín hiệu Read từ Controller
-    input wr               // Tín hiệu Write từ Controller
+    input  [`ADDR_WIDTH-1:0] addr,   
+    inout  [`DATA_WIDTH-1:0] data,    
+    input rd,             
+    input wr               
 );
-
-    // Khai báo mảng RAM với chiều sâu ADDR_SPACE (32 ô nhớ)
     reg [`DATA_WIDTH-1:0] ram [0:`ADDR_SPACE-1]; 
-
-    // Chỉ lái bus ra khi rd = 1, còn lại thả Z hết. 
-    // Dùng replication operator {`DATA_WIDTH{1'bz}} để thả Z chuẩn theo số bit.
-
    assign data = (rd) ? ram[addr] : {`DATA_WIDTH{1'bz}};
 integer i;
 initial begin

@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "define.v" // Khai bao file define de lay cac thong so do rong va Opcode
+`include "define.v" 
 
 module ALU(
     input  [`OPCODE_WIDTH-1:0] opcode,
@@ -8,7 +8,7 @@ module ALU(
     output reg [`DATA_WIDTH-1:0] out, 
     output is_zero       
 );
-    // Kiem tra co Zero (Bang 1 neu inA bang 0)
+
     assign is_zero = (inA === {`DATA_WIDTH{1'b0}});
 
     always @(*) begin
@@ -21,7 +21,7 @@ module ALU(
             `LDA: out = inB;       
             `STO: out = inA;     
             `JMP: out = inA;
-            default: out = {`DATA_WIDTH{1'b0}}; // Tra ve 0 neu opcode khong hop le
+            default: out = {`DATA_WIDTH{1'b0}}; 
         endcase
     end
     

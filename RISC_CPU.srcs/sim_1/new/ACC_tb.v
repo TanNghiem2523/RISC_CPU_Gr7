@@ -56,7 +56,6 @@ module ACC_tb();
         if (acc_out === 32'h5A && data_bus === {`DATA_WIDTH{1'bz}}) $display(" -> TC2: PASSED");
         else $display(" -> TC2: FAILED");
 
-        // Testcase 3: Enable data bus output
         @(negedge clk);
         ld_ac  = 0; 
         data_e = 1; 
